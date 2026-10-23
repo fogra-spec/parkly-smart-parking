@@ -1,0 +1,13 @@
+Metric,Downside,Base,Upside
+Monthly bookings,450,2400,9000
+GMV,360000,1920000,7200000
+Commission revenue,36000,192000,720000
+B2B revenue,40000,200000,400000
+Total platform revenue,76000,392000,1120000
+Payment processing expense,3420,18240,68400
+Variable operating cost,2250,12000,45000
+Fixed operating cost,500000,500000,750000
+Operating result before tax,-429670,-138240,256600
+Operator allocation before costs,324000,1728000,6480000
+Contribution / booking,67.4,67.4,67.4
+Break-even bookings / month,6825,4452,5193
