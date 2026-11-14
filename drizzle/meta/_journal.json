@@ -8,6 +8,20 @@
       "when": 1792772938906,
       "tag": "0000_high_gabe_jones",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1793179069708,
+      "tag": "0001_booking_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1793179143435,
+      "tag": "0002_database_guards",
+      "breakpoints": true
     }
   ]
 }

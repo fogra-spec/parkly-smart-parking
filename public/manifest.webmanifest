@@ -1,0 +1,21 @@
+{
+  "id": "/",
+  "name": "Parkly — Find. Reserve. Park.",
+  "short_name": "Parkly",
+  "description": "Discover parking in Astana, compare prices and manage reservations.",
+  "start_url": "/#/map",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#0066FF",
+  "lang": "en",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Find parking", "url": "/#/map" },
+    { "name": "My bookings", "url": "/#/driver" }
+  ]
+}

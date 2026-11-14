@@ -1,0 +1,22 @@
+# Staging template only. No service is installed automatically.
+[Unit]
+Description=Parkly durable parking reminder worker
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=parkly
+WorkingDirectory=/opt/parkly/backend
+EnvironmentFile=/etc/parkly/notification-worker.env
+ExecStart=/usr/bin/node --experimental-strip-types /opt/parkly/backend/src/reminder-worker.ts
+Restart=always
+RestartSec=5
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,32 @@
+{
+  "name": "parkly-backend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "dev": "node --experimental-strip-types src/server.ts",
+    "local": "node --experimental-strip-types scripts/local.ts",
+    "migrate": "node --experimental-strip-types scripts/migrate.ts",
+    "seed": "node --experimental-strip-types scripts/seed.ts",
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "worker": "node --experimental-strip-types src/reminder-worker.ts",
+    "push:keys": "node --experimental-strip-types scripts/generate-push-keys.ts"
+  },
+  "dependencies": {
+    "pg": "^8.16.3",
+    "web-push": "3.6.7",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/pg": "^8.15.5",
+    "@types/web-push": "3.6.4",
+    "embedded-postgres": "18.4.0-beta.17",
+    "fake-indexeddb": "6.2.4",
+    "typescript": "5.9.3"
+  }
+}

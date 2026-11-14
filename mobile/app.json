@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Parkly Demo",
+    "slug": "parkly-mobile-demo",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "parkly-demo",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "kz.parkly.classroom",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "package": "kz.parkly.classroom"
+    },
+    "web": {
+      "name": "Parkly Mobile Preview",
+      "bundler": "metro"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0b3e0154-22b0-4efe-833c-7b097d02c9d4"
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+# Preserve copied upstream license notices byte-for-byte.
+docs/THIRD_PARTY_NOTICES.txt -whitespace

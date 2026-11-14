@@ -1,0 +1,33 @@
+[build]
+  command = "pnpm --dir backend install --frozen-lockfile --ignore-scripts && pnpm build:netlify"
+  publish = "dist-netlify"
+
+[build.environment]
+  NODE_VERSION = "24"
+  PNPM_VERSION = "10.28.0"
+  # Parkly has a separate SPA/Functions target; do not run the Next.js adapter.
+  NETLIFY_NEXT_PLUGIN_SKIP = "true"
+  AWS_LAMBDA_JS_RUNTIME = "nodejs24.x"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  included_files = ["!backend/.local/**", "!**/.env", "!**/.env.*", "!outputs/**", "!mobile/**", "!.git/**"]
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "private, no-store"

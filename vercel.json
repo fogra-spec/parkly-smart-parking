@@ -1,0 +1,29 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "pnpm install --frozen-lockfile && pnpm --dir backend install --frozen-lockfile --ignore-scripts",
+  "buildCommand": "pnpm build:vercel",
+  "outputDirectory": "dist-vercel",
+  "functions": {
+    "api/parkly.ts": {
+      "excludeFiles": "{backend/.local/**,**/.env*,outputs/**,mobile/**,.git/**,.sites-runtime/**}"
+    }
+  },
+  "rewrites": [
+    { "source": "/api/v1/:path*", "destination": "/api/parkly?__parkly_path=/api/v1/:path*" },
+    { "source": "/api/demo", "destination": "/api/parkly?__parkly_path=/api/demo" },
+    { "source": "/api/availability", "destination": "/api/parkly?__parkly_path=/api/availability" }
+  ],
+  "headers": [
+    { "source": "/(.*)", "headers": [
+      { "key": "X-Content-Type-Options", "value": "nosniff" },
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+      { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
+    ] },
+    { "source": "/api/(.*)", "headers": [{ "key": "Cache-Control", "value": "private, no-store" }] },
+    { "source": "/sw.js", "headers": [
+      { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" },
+      { "key": "Service-Worker-Allowed", "value": "/" }
+    ] }
+  ]
+}

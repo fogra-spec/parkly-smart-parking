@@ -17,6 +17,12 @@ const managedLinux = readExecutionProfile() === "managed-linux";
 
 const localBindingConfig = {
   main: "./worker/index.ts",
+  // Vinext resolves public-file response signals through this Worker binding.
+  // Without it, some local public requests return empty 200 responses.
+  assets: { binding: 'ASSETS' },
+  // Only this non-secret origin is configured at build/dev time. Remote bridge
+  // keys must be runtime secrets, never build variables or browser values.
+  vars: { PARKLY_BACKEND_URL: process.env.PARKLY_BACKEND_URL || '' },
   compatibility_flags: ["nodejs_compat"],
   d1_databases: d1
     ? [
@@ -45,9 +51,8 @@ export default defineConfig(async ({ command }) => {
 
   return {
     server: {
-      ...(managedLinux
-        ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
-        : {}),
+      strictPort: true,
+      host: '127.0.0.1',
       ...(isCodexSeatbeltSandbox
         ? { watch: { useFsEvents: false, usePolling: true } }
         : {}),

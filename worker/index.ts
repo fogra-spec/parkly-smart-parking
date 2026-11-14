@@ -23,7 +23,22 @@ const worker = {
         },
       };
     }
-    return runWithConnectorBinding(binding, () => handler.fetch(request, env, ctx));
+    return runWithConnectorBinding(binding, async () => {
+      const response = await handler.fetch(request, env, ctx);
+      const headers = new Headers(response.headers);
+      headers.set('X-Content-Type-Options', 'nosniff');
+      headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+      headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(self)');
+      const path = new URL(request.url).pathname;
+      if (path === '/sw.js') {
+        headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
+        headers.set('Service-Worker-Allowed', '/');
+      }
+      if (path.startsWith('/api/') || response.headers.get('Content-Type')?.includes('text/html')) {
+        headers.set('Cache-Control', 'private, no-store');
+      }
+      return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+    });
   },
 };
 

@@ -3,15 +3,27 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=22.13.0"
+    "node": ">=24.0.0"
   },
   "scripts": {
     "dev": "node scripts/run-framework.mjs dev",
     "build": "node scripts/run-framework.mjs build",
+    "build:netlify": "vite build --config netlify/vite.config.ts",
     "start": "node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js dev --config dist/server/wrangler.json --local --persist-to .wrangler/state --ip 127.0.0.1 --inspector-port 0",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "lint": "eslint app components hooks lib backend/src backend/scripts backend/tests scripts tests worker netlify api vercel vite.config.ts eslint.config.mjs --max-warnings 0",
+    "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
-    "test": "node --experimental-strip-types --test tests/*.test.ts"
+    "test": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:integration": "node tests/api.integration.mjs",
+    "test:pwa": "node tests/pwa.integration.mjs",
+    "test:netlify": "node tests/netlify.integration.mjs",
+    "netlify:check-artifacts": "node scripts/check-netlify-archives.mjs",
+    "backend:local": "node --experimental-strip-types backend/scripts/local.ts",
+    "backend:test": "node --experimental-strip-types --test backend/tests/*.test.ts",
+    "backend:typecheck": "node backend/node_modules/typescript/bin/tsc --noEmit -p backend/tsconfig.json",
+    "dev:fullstack": "node scripts/fullstack.mjs",
+    "build:vercel": "vite build --config vercel/vite.config.ts",
+    "check:repository": "node scripts/check-course-safety.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

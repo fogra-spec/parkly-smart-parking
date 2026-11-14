@@ -1,5 +1,5 @@
 # Dependencies
-/node_modules/
+node_modules/
 /.pnp
 .pnp.*
 # Keep authored Yarn tooling if the project adopts Yarn.
@@ -11,6 +11,10 @@
 
 # Generated builds and framework state
 /dist/
+/dist-netlify/
+/dist-vercel/
+/.vercel/
+/.netlify/
 /.next/
 /.vinext/
 /out/
@@ -19,6 +23,11 @@ next-env.d.ts
 
 # Test output
 /coverage/
+/.cache/
+/.turbo/
+/.local-tools/
+/.local/
+*.log
 
 # Package-manager logs
 npm-debug.log*
@@ -28,8 +37,18 @@ yarn-error.log*
 
 # Local environment and keys
 .env*
+!.env.example
 .dev.vars*
 *.pem
+*.key
+*.p12
+*.pfx
+*.p8
+*.jks
+*.keystore
+*.mobileprovision
+credentials.json
+service-account*.json
 
 # Checkout-local tool state
 /.wrangler/

@@ -1,0 +1,10 @@
+'use client';
+import { useState } from 'react';
+import { useResource } from '../hooks/use-resource';
+import { apiCall } from '../lib/api-client';
+type Item = { id: string; event: string; reservation_id: string | null; created_at: string; read_at: string | null };
+export default function NotificationCenter() {
+  const [offset, setOffset] = useState(0), [busy, setBusy] = useState(''), [error, setError] = useState('');
+  const list = useResource<{ notifications: Item[]; total: number }>('/notifications?limit=20&offset=' + offset);
+  return <section className="panel"><div className="row"><h2>Notification center</h2><button className="small-btn" onClick={list.reload}>Refresh notifications</button></div>{(error || list.error) && <p role="alert" className="inline-error">{error || list.error}</p>}{list.loading ? <p role="status">Loading notifications…</p> : !list.data?.notifications.length ? <p className="muted">No notifications yet. Booking updates and enabled parking reminders appear here.</p> : list.data.notifications.map(n => <article className={'notification-record ' + (!n.read_at ? 'unread' : '')} key={n.id}><div><strong>{n.event.replaceAll('.', ' · ').replaceAll('_', ' ')}</strong><small>{new Date(n.created_at).toLocaleString('en-GB', { timeZone: 'Asia/Almaty' })}</small>{n.reservation_id && <a className="text-link" href={'/#/driver?booking=' + n.reservation_id}>View booking</a>}</div>{!n.read_at && <button className="small-btn" disabled={!!busy} onClick={async () => { setBusy(n.id); setError(''); try { await apiCall('/notifications/' + n.id + '/read', 'POST', {}); list.reload(); } catch (e) { setError((e as Error).message); } finally { setBusy(''); } }}>Mark read</button>}</article>)}{list.data && <div className="pagination"><button className="small-btn" disabled={!offset} onClick={() => setOffset(n => Math.max(0, n - 20))}>Previous</button><span>{list.data.total} notifications</span><button className="small-btn" disabled={offset + 20 >= list.data.total} onClick={() => setOffset(n => n + 20)}>Next</button></div>}</section>;
+}

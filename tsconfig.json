@@ -43,8 +43,12 @@
   ],
   "exclude": [
     "node_modules",
+    "mobile",
+    "backend",
     "examples",
     "dist",
+    "dist-netlify",
+    ".netlify",
     ".vinext",
     ".wrangler",
     ".sites-runtime",

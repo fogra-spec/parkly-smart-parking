@@ -1,0 +1,62 @@
+{
+  "p1": {
+    "src": "/photos/p1.jpg",
+    "alt": "Botanical Garden in Astana",
+    "caption": "Area photo",
+    "author": "Demir Berisha",
+    "source": "https://commons.wikimedia.org/wiki/File:A_view_of_Nur-Sultan%27s_Botanical_Garden.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "kind": "area"
+  },
+  "p2": {
+    "src": "/photos/p2.jpg",
+    "alt": "Bayterek area in Astana",
+    "caption": "Area photo",
+    "author": "Vyacheslav Bukharov",
+    "source": "https://commons.wikimedia.org/wiki/File:Astana-2021-10_-_12.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "kind": "area"
+  },
+  "p3": {
+    "src": "/photos/p3.jpg",
+    "alt": "Ishim River in Astana",
+    "caption": "Area photo",
+    "author": "Nikolamikovic82",
+    "source": "https://commons.wikimedia.org/wiki/File:Ishim_River,_Astana.jpg",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "kind": "area"
+  },
+  "p4": {
+    "src": "/photos/p4.jpg",
+    "alt": "Astana skyline seen from the Nur Alem Museum",
+    "caption": "Area photo",
+    "author": "Nikolamikovic82",
+    "source": "https://commons.wikimedia.org/wiki/File:Astana,_view.jpg",
+    "license": "CC0",
+    "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "kind": "area"
+  },
+  "p5": {
+    "src": "/photos/p5.jpg",
+    "alt": "Main atrium of Nazarbayev University in Astana",
+    "caption": "Campus photo",
+    "author": "Dinononozavr1",
+    "source": "https://commons.wikimedia.org/wiki/File:Nazarbayev_University_2.jpg",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "kind": "area"
+  },
+  "p6": {
+    "src": "/photos/p6.jpg",
+    "alt": "Right Bank buildings near the Hazrat Sultan Mosque in Astana",
+    "caption": "Area photo",
+    "author": "t_y_l",
+    "source": "https://commons.wikimedia.org/wiki/File:Kazakhstan_P9130227_(40051226042).jpg",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0",
+    "kind": "area"
+  }
+}

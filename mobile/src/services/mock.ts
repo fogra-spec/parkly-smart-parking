@@ -1,0 +1,24 @@
+import {demoLots} from '../../../lib/demo.ts';
+import {availableSlots,bookingPrice,validateTime,validateProfile} from '../domain.ts';
+import type {AppData,Booking,BookingRequest,ParklyRepository,Profile} from '../models.ts';
+export interface Storage{getItem(key:string):Promise<string|null>;setItem(key:string,value:string):Promise<void>}
+type Snapshot={version:1;profiles:Profile[];activeUserId:string|null;bookings:Booking[]};
+export const STORAGE_KEY='parkly-mobile-demo-v1';
+function initial():Snapshot{return {version:1,profiles:[{id:'mobile-driver',name:'Alex, demo driver',email:'alex@parkly.demo',role:'driver',active:1}],activeUserId:null,bookings:[]};}
+export function createMockRepository(storage:Storage,options:{now?:()=>number;id?:()=>string}={}):ParklyRepository{
+  const now=options.now||Date.now;let counter=0;const id=options.id||(()=>Date.now().toString(36)+'-'+(++counter).toString(36)+'-'+Math.random().toString(36).slice(2,7));let tail:Promise<unknown>=Promise.resolve();
+  async function read(){const value=await storage.getItem(STORAGE_KEY);if(value===null)return initial();let s:Snapshot;try{s=JSON.parse(value);}catch{throw Error('Saved demo data cannot be read. Keep the data and retry, or clear this app’s storage manually.');}if(!s||typeof s!=='object'||s.version!==1||!Array.isArray(s.profiles)||!Array.isArray(s.bookings)||!(s.activeUserId===null||typeof s.activeUserId==='string')||s.profiles.some(p=>!p||!p.id||typeof p.name!=='string'||typeof p.email!=='string'||p.role!=='driver')||s.bookings.some(b=>!b||!b.id||!b.lot_id||!b.user_id||!Number.isFinite(b.start)||!Number.isFinite(b.end)||b.end<=b.start||!Number.isFinite(b.total)||!['confirmed','completed','cancelled','operator_cancelled'].includes(b.status)))throw Error('Saved demo data has an unsupported format. No records were changed.');return s;}
+  function mutate<T>(fn:(s:Snapshot)=>T|Promise<T>):Promise<T>{const task=tail.then(async()=>{const s=await read();const result=await fn(s);await storage.setItem(STORAGE_KEY,JSON.stringify(s));return result;});tail=task.catch(()=>{});return task;}
+  function user(s:Snapshot){const p=s.profiles.find(p=>p.id===s.activeUserId);if(!p)throw Error('Sign in to a local demo profile first.');return p;}
+  function view(s:Snapshot):AppData{const active=s.profiles.find(p=>p.id===s.activeUserId)||null;return {user:active,lots:demoLots.filter(l=>l.approved===1).map(l=>({...l,available:availableSlots({...l,available:l.capacity},s.bookings,now(),now()+1)})),bookings:active?s.bookings.filter(b=>b.user_id===active.id).sort((a,b)=>b.created-a.created):[]};}
+  return {mode:'mock',
+    async load(){await tail;return view(await read());},
+    signIn(email){return mutate(s=>{const e=email.trim().toLowerCase(),p=s.profiles.find(p=>p.email===e);if(!p)throw Error('No local demo profile found. Create one, or use alex@parkly.demo.');s.activeUserId=p.id;return view(s);});},
+    signUp(name,email){return mutate(s=>{const p=validateProfile(name,email);if(s.profiles.some(x=>x.email===p.email))throw Error('This fictional email already has a demo profile. Sign in instead.');const profile:Profile={...p,id:'mobile-'+id(),role:'driver',active:1};s.profiles.push(profile);s.activeUserId=profile.id;return view(s);});},
+    async signOut(){await mutate(s=>{s.activeUserId=null;});},
+    async availability(lotId,start,end){await tail;const s=await read(),l=demoLots.find(l=>l.id===lotId&&l.approved===1);if(!l)throw Error('This parking listing is unavailable.');if(!Number.isFinite(start)||!Number.isFinite(end)||end<=start)throw Error('Select a valid time range.');return availableSlots({...l,available:l.capacity},s.bookings,start,end);},
+    book(r:BookingRequest){return mutate(s=>{const p=user(s),lot=demoLots.find(l=>l.id===r.lotId&&l.approved===1);if(!lot)throw Error('This listing is not approved for demo reservations.');const end=validateTime(r.start,r.hours,now());if(lot.price!==r.quotedPrice)throw Error('The price changed. Review the parking details before booking.');if(availableSlots({...lot,available:lot.capacity},s.bookings,r.start,end)<1)throw Error('No demo spaces remain at this time. Choose another time.');const b:Booking={id:'PK-M-'+id().toUpperCase(),user_id:p.id,lot_id:lot.id,name:lot.name,start:r.start,end,total:bookingPrice(r.start,end,lot.price),status:'confirmed',created:now()};s.bookings.push(b);return b;});},
+    async cancel(bookingId){await mutate(s=>{const p=user(s),b=s.bookings.find(b=>b.id===bookingId);if(!b||b.user_id!==p.id)throw Error('This reservation does not belong to your demo profile.');if(b.status!=='confirmed')throw Error('This reservation is already closed.');if(b.start<=now())throw Error('Cancel before the reservation starts.');b.status='cancelled';});},
+    async updateProfile(name){await mutate(s=>{const p=user(s);p.name=validateProfile(name,p.email).name;});}
+  };
+}

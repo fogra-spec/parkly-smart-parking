@@ -1,0 +1,14 @@
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Content-Type: application/javascript; charset=utf-8
+  Service-Worker-Allowed: /
+  X-Content-Type-Options: nosniff
+
+/manifest.webmanifest
+  Content-Type: application/manifest+json
+  Cache-Control: no-cache
+  X-Content-Type-Options: nosniff
+
+# Preserve the existing immutable policy for content-hashed framework assets.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
