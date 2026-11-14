@@ -2,6 +2,8 @@ Educational project for the course Business Analysis, Astana IT University. Not 
 
 # Parkly — localhost course prototype
 
+Source repository: [fogra-spec/parkly-smart-parking](https://github.com/fogra-spec/parkly-smart-parking) (**Private**, default branch `main`). This is the source code repository, not a live website.
+
 Parkly demonstrates parking search, individual-space reservations and assigned-operator management using invented accounts, facilities and reservations. Availability is reservation inventory, never sensor occupancy. No real parking access, payment, refund, partnership or collected revenue is represented. Do not enter real personal information or card details.
 
 The professor's latest prototype restrictions override the attached master prompt's mandatory cloud hosting. This version runs on **127.0.0.1 only**. Do not publish or advertise the running prototype, start a public tunnel, or use a service requiring a payment card or paid plan. A private GitHub source repository is authorized for this task; no website deployment is authorized. Hosting adapters are provided for a separate future deployment decision.

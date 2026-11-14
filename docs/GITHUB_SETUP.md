@@ -4,6 +4,12 @@ Target: `fogra-spec/parkly-smart-parking`. Visibility: **Private**. The prepared
 
 This document describes the verified local preparation. Remote creation/push is complete only after GitHub confirms the repository and matching remote/local commit IDs. Do not present a local commit or this target name as proof of upload.
 
+## Confirmed private upload
+
+GitHub created [fogra-spec/parkly-smart-parking](https://github.com/fogra-spec/parkly-smart-parking) as Private on 14 November 2026. The first verified upload on `main` was `da18f877875ef2db61913a4c0797f165f44169dd`, containing 332 tracked files. The GitHub ref matched the local commit exactly; required frontend/backend, migrations, lockfiles, README, environment templates and PWA/Vercel files were present. The initial commit `0d09da9` and its original author remain in history. This paragraph records that first upload; subsequent documentation commits have their own SHA.
+
+No website was deployed. Repository access does not keep localhost running or make it accessible from another computer.
+
 ## Contents and clean-clone setup
 
 The application root is the repository root. It includes `app/`, `components/`, `lib/`, `backend/src`, SQL migrations, seed/setup scripts, tests, PWA assets, fictional fixture definitions, `public/project` academic artifacts, optional `mobile/`, Cloudflare/Netlify adapters and the new future Vercel target. Each of root, backend and mobile has its own pnpm lockfile. Private PostgreSQL data, passwords, keys, tool caches and generated builds are excluded.
