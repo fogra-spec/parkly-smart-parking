@@ -87,3 +87,13 @@ tests, a 21-step website/API/PostgreSQL workflow and public/PWA smoke checks pas
 The new isolated tests include 205-record reporting, concurrent approval, private
 support and password-session revocation. Browser-tab automation was unavailable;
 no new visual, browser-click E2E or real-device push success is claimed.
+
+## Reservation time editing fix — 14 November 2026
+
+The floor-booking datetime controls previously updated React state only after awaiting hold release, allowing native controlled inputs to revert. Moving arrival also left departure on the old date and discarded the entire floor layout when the interval became invalid. The screen ran a one-second render timer even without a hold.
+
+The corrected form updates both times synchronously, preserves the reservation duration when arrival moves, and keeps departure independently editable. Availability requests are debounced, aborted on a newer edit/unmount and bounded by a ten-second deadline; only the latest matching quote enables reservation. The previous plan stays visible while the selected interval is being checked or corrected. The countdown runs only for an active hold.
+
+Executed browser checks used the native datetime controls (keyboard day/hour changes), including rapid repeated changes and an invalid departure before arrival followed by correction. Arrival/departure remained editable, validation recovered and the server quote updated. A fictional driver released a hold, changed the interval again and confirmed Floor 2/A-12 for 15 November 2026, 17:00–19:00, 800 KZT. The confirmation and history showed those exact persisted times. That new QA reservation was then cancelled; no existing user reservation was changed. Screenshot: ignored `outputs/course-qa/time-change-confirmed.png`.
+
+Root tests now include four calendar/window regressions (21 total passed), covering duration preservation, midnight/year rollover, independent departure changes, incomplete native input and recovery from invalid windows. TypeScript, lint and both production build targets were checked. No database migration or website deployment is part of this fix.
